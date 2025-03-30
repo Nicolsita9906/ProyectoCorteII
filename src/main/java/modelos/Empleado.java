@@ -11,11 +11,9 @@ private LocalDate fechaIngreso;
 public Empleado (String codigo) {
 	this.codigo = UUID.randomUUID().toString();
 }
-public Empleado(String nombreEmpleado, String codigo, TipoDeDocumento tipoDocumento, String numeroDocuemento,
-		LocalDate fechaIngreso) {
-	super();
+public Empleado(String nombreEmpleado, TipoDeDocumento tipoDocumento, String numeroDocuemento, LocalDate fechaIngreso) {
+	this.codigo = UUID.randomUUID().toString();
 	this.nombreEmpleado = nombreEmpleado;
-	this.codigo = codigo;
 	this.tipoDocumento = tipoDocumento;
 	this.numeroDocuemento = numeroDocuemento;
 	this.fechaIngreso = fechaIngreso;
