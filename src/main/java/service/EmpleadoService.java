@@ -1,6 +1,6 @@
 package service;
-import repository.EmpleadoRepository;
 import modelos.Empleado;
+import repository.EmpleadoRepository;
 public class EmpleadoService {
 
 	private EmpleadoRepository servicio = new EmpleadoRepository ();
@@ -9,7 +9,7 @@ public class EmpleadoService {
 		servicio.agregarEmpleado(empleado);
 	}
 	
-	public Empleado buscarEmplado (String codigo) {
+	public Empleado buscarEmpleado (String codigo) {
 		return servicio.buscarEmpleado(codigo);
 	}
 	

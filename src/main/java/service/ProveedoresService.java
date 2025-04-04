@@ -14,7 +14,7 @@ public class ProveedoresService {
 	 }
 	 
 	 public void buscarProveedres(String codigo) {
-		 servicio.buscarProveedres(codigo);
+		servicio.buscarProveedres(codigo);
 	 }
 	 
 	 public void modificarProveedor(String codigo, Proveedores proveedor) {

@@ -1,7 +1,6 @@
 package repository;
 import java.util.ArrayList;
 
-import modelos.Categoria;
 import modelos.Proveedores;
 public class ProveedoresRepository {
     ArrayList<Proveedores> proveedores = new ArrayList<>();
@@ -31,7 +30,7 @@ public class ProveedoresRepository {
         boolean encontrado = false;
         for(Proveedores proveedor : proveedores){
             if(proveedor.getCodigo().equals(codigo)){
-                System.out.println(proveedor.toString());
+                System.out.println(proveedor);
                 encontrado = true;
                 break;  
             }

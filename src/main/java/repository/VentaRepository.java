@@ -12,10 +12,6 @@ public class VentaRepository {
 	private ArrayList <Venta> ventas = new ArrayList <Venta>();
 	private ProductoRepository producto = new ProductoRepository ();
 
-	public Factura crearFactura (Factura factura, Venta venta) {
-		//crear factura
-		return factura;
-	}
 	public Productos agregarProducto (String codProducto) {
 		
 		return producto.buscarProducto(codProducto);
@@ -36,5 +32,19 @@ public class VentaRepository {
 		ventas.add(venta);
 		//mesaje venta realizada con exito
 		return venta;
+	}
+	public Venta buscarVenta (String fechaVenta) {
+		for (Venta x : ventas) {
+			if (x.getCodEmp().equals(fechaVenta)) {
+				//mostrar mensaje de encontrado
+				return x;
+			}
+		}
+		//mostrar mensaje de no encontrado
+		return null;
+	}
+	public ArrayList <Venta> getVentas () {
+		return ventas;
+		//mensaje para mostrar ventas
 	}
 }
