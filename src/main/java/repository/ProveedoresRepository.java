@@ -5,17 +5,15 @@ import modelos.Categoria;
 import modelos.Proveedores;
 public class ProveedoresRepository {
     ArrayList<Proveedores> proveedores = new ArrayList<>();
-    public void agregarProveedor(String nombreProveedor, String empresa, String telefono, int cantidadProductosIngresados,
-    		Categoria categoriaProductos){
-        for(Proveedores proveedor : proveedores){
-            if(proveedor.getCodigo().equals(nombreProveedor)){
+    public void agregarProveedor(Proveedores proveedor){
+        for(Proveedores x : proveedores){
+            if(x.getCodigo().equals(proveedor.getCodigo())){
                 System.out.println("El código ya existe en el sistema");
                 return;  
             }
         }
-        Proveedores prov = new Proveedores(nombreProveedor, empresa, telefono, cantidadProductosIngresados, categoriaProductos);
-        proveedores.add(prov);
-        System.out.println("Proveedor agregado con éxito");
+        proveedores.add(proveedor);
+        System.out.println("Proveedor agregado con éxito" + proveedor);
     }
     
     public void eliminarProveedor(String codigo){
@@ -43,16 +41,16 @@ public class ProveedoresRepository {
         }
     }
     
-    public void modificarProveedor(String codigo, String newName, String newCode, String newEmpresa, String newTelefono, int newCantidad, Categoria newCategoria){
+    public void modificarProveedor(String codigo, Proveedores proveedor){
         boolean encontrado = false;
-        for (Proveedores proveedor : proveedores){
-            if(proveedor.getCodigo().equals(codigo)){
-                proveedor.setNombreProveedor(newName);
-                proveedor.setCodigo(newCode);
-                proveedor.setEmpresa(newEmpresa);
-                proveedor.setTelefono(newTelefono);
-                proveedor.setCantidadProductosIngresados(newCantidad);
-                proveedor.setCategoriaProductos(newCategoria);
+        for (Proveedores x : proveedores){
+            if(x.getCodigo().equals(codigo)){
+                x.setNombreProveedor(proveedor.getNombreProveedor());
+                x.setCodigo(proveedor.getCodigo());
+                x.setEmpresa(proveedor.getEmpresa());
+                x.setTelefono(proveedor.getTelefono());
+                x.setCantidadProductosIngresados(proveedor.getCantidadProductosIngresados());
+                x.setCategoriaProductos(proveedor.getCategoriaProductos());
                 System.out.println("Proveedor modificado con éxito");
                 encontrado = true;
                 break;  

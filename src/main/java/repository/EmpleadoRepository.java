@@ -3,21 +3,22 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import modelos.*;
-
+import excepciones.MenorEdad;
 public class EmpleadoRepository {
     private List<Empleado> empleados = new ArrayList<>();
 
-    public void agregarEmpleado(String nombreEmpleado, TipoDeDocumento tipoDocumento, String numeroDocuemento, LocalDate fechaIngreso) {
-        for (Empleado empleado : empleados) {
-            if (empleado.getNumeroDocuemento().equals(numeroDocuemento)) {
-                        System.out.println("La identificación ya existe en el sistema");
+    public void agregarEmpleado(Empleado empleado) {
+        for (Empleado emp : empleados) {
+            if (emp.getCodigo().equals(empleado.getCodigo()) || emp.getNumeroDocuemento().equals(empleado.getNumeroDocuemento())) {
+                        System.out.println("El codigo o la identificación ya existe en el sistema");
                 return; 
             }
         }
-        
-        Empleado emp = new Empleado(nombreEmpleado, tipoDocumento, numeroDocuemento, fechaIngreso);
-        empleados.add(emp);
-        System.out.println("Empleado agregado con éxito");
+        if(empleado.getTipoDocumento() == TipoDeDocumento.TI) {
+        	
+        }
+        empleados.add(empleado);
+        System.out.println("Empleado agregado con éxito" + empleado);
     }
 
     public Empleado buscarEmpleado(String codigo) {
@@ -45,14 +46,15 @@ public class EmpleadoRepository {
         System.out.println("El código no existe en el sistema");
     }
 
-    public void modificarEmpleado(String codigo, String newName, String newCode, String newNumber, LocalDate newDate) {
+    public void modificarEmpleado(String codigo, Empleado empleado) {
         boolean encontrado = false;
         for (Empleado x : empleados) {
             if (x.getCodigo().equals(codigo)) {
-                x.setNombreEmpleado(newName);
-                x.setCodigo(newCode);
-                x.setNumeroDocuemento(newNumber);
-                x.setFechaIngreso(newDate);
+                x.setNombreEmpleado(empleado.getNombreEmpleado());
+                x.setCodigo(empleado.getCodigo());
+                x.setNumeroDocuemento(empleado.getNumeroDocuemento());
+                x.setFechaIngreso(empleado.getFechaIngreso());
+                x.setTipoDocumento(empleado.getTipoDocumento());
                 System.out.println("Empleado modificado: " + x.toString());
                 encontrado = true;
                 break; 
@@ -61,14 +63,15 @@ public class EmpleadoRepository {
         if (!encontrado) {
             System.out.println("El código no existe en el sistema");
         }
-    }
+    } 
+    
 
     public void listarEmpleados() {
         if (empleados.isEmpty()) {
             System.out.println("No hay empleados en el sistema");
         } else {
             for (Empleado x : empleados) {
-                System.out.println(x.toString());
+                System.out.println(x);
             }
         }
     }

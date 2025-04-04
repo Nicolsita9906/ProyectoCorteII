@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import modelos.Productos;
 public class Venta {
 	private ArrayList <Productos> productos;
-    LocalDate fechaVenta;
-    String codEmp;
-    String codProd;
-    int cantidad;
-    double totalVenta;
+    private LocalDate fechaVenta;
+    private String codEmp;
+    private String codProd;
+    private int cantidad;
+    private double totalVenta;
     
-    public Venta(LocalDate fechaVenta, String codEmp, String codProd, int cantidad, double totalVenta) {
-       this.productos = new ArrayList <Productos> ();
+    public Venta(LocalDate fechaVenta, String codEmp, String codProd, int cantidad, double totalVenta, ArrayList <Productos> productos) {
+       this.productos = productos;
     	this.fechaVenta = fechaVenta;
         this.codEmp = codEmp;
         this.codProd = codProd;
@@ -19,7 +19,15 @@ public class Venta {
         this.totalVenta = totalVenta;
     }
     
-    public LocalDate getFechaVenta() {
+    public ArrayList<Productos> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(ArrayList<Productos> productos) {
+		this.productos = productos;
+	}
+
+	public LocalDate getFechaVenta() {
         return fechaVenta;
     }
     

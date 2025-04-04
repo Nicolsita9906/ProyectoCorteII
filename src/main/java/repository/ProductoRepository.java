@@ -9,11 +9,17 @@ import excepciones.StockBajo;
 public class ProductoRepository {
     ArrayList<Productos> productos = new ArrayList<>();
 
-    public Productos agregarProducto(String nombre, double precio, LocalDate caducidad, Categoria categoria, int stock) {
-        Productos producto = new Productos(nombre, precio, caducidad, categoria, stock);
-        System.out.println("Producto agregado con éxito: " + producto);
-        this.productos.add(producto);
-        return producto;
+    public Productos agregarProducto(Productos producto) {
+        for (Productos x : productos) {
+        	if (x.getCodigo().equals(producto.getCodigo())) {
+        		System.out.println("El codigo ya existe en el sistema");
+        	}
+        }
+        productos.add(producto);
+		System.out.println("Producto agregado con exito" + producto);
+		return producto;
+		
+        
     }
 
     public  Productos buscarProducto(String codigo) {
@@ -43,15 +49,16 @@ public class ProductoRepository {
         System.out.println("El código no existe en el sistema");
     }
 
-    public void modificarProducto(String codigo, String newName, String newCode, double newPrice, LocalDate newCaducity, int newStock) {
+    public void modificarProducto(String codigo, Productos producto) {
         boolean encontrado = false;
         for (Productos x : productos) {
             if (x.getCodigo().equals(codigo)) {
-                x.setNombre(newName);
-                x.setPrecio(newPrice);
-                x.setCaducidad(newCaducity);
-                x.setCodigo(newCode);
-                x.setStock(newStock);
+                x.setNombre(producto.getNombre());
+                x.setPrecio(producto.getPrecio());
+                x.setCaducidad(producto.getCaducidad());
+                x.setCodigo(producto.getCodigo());
+                x.setStock(producto.getStock());
+                x.setCategoria(producto.getCategoria());
                 System.out.println("Producto modificado: " + x.toString());
                 encontrado = true;
                 break;

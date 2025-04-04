@@ -73,5 +73,11 @@ public class Factura {
 	public void setFacturas(ArrayList<Factura> facturas) {
 		this.facturas = facturas;
 	}
+	@Override
+	public String toString() {
+		return "Factura [numFactura=" + numFactura + ", nombreEmpleado=" + nombreEmpleado + ", productos=" + productos
+				+ ", total=" + total + ", pago=" + pago + ", cantArticulos=" + cantArticulos + ", fechaDeVenta="
+				+ fechaDeVenta + "]";
+	}
 	
 }
