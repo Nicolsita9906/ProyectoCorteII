@@ -32,18 +32,7 @@ public class VentaRepository {
 		ventas.add(venta);
 		//mesaje venta realizada con exito
 		return venta;
-	}
-	public Venta buscarVenta (String fechaVenta) {
-		for (Venta x : ventas) {
-			if (x.getCodEmp().equals(fechaVenta)) {
-				//mostrar mensaje de encontrado
-				return x;
-			}
-		}
-		//mostrar mensaje de no encontrado
-		return null;
-	}
-	public ArrayList <Venta> getVentas () {
+	}	public ArrayList <Venta> getVentas () {
 		return ventas;
 		//mensaje para mostrar ventas
 	}
