@@ -226,7 +226,7 @@ public class Empleados extends javax.swing.JFrame {
     }//GEN-LAST:event_buscarButtonActionPerformed
 
     private void regresarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_regresarButtonActionPerformed
 
     /**

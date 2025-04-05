@@ -7,12 +7,14 @@ package vistas;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import vistas.VentanaPrincipal;
 
 /**
  *
  * @author NICOL VALERIA
  */
 public class Productos extends javax.swing.JFrame {
+    VentanaPrincipal vp = new VentanaPrincipal();
 
     /**
      * Creates new form Productos
@@ -195,7 +197,8 @@ public class Productos extends javax.swing.JFrame {
     }//GEN-LAST:event_modificarButtonActionPerformed
 
     private void regresarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        vp.setVisible(true);
     }//GEN-LAST:event_regresarButtonActionPerformed
 
     /**

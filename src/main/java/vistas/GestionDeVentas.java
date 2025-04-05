@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package vistas;
-
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -13,7 +12,6 @@ import javax.swing.JPanel;
  * @author NICOL VALERIA
  */
 public class GestionDeVentas extends javax.swing.JFrame {
-
     /**
      * Creates new form GestionDeVentas
      */
@@ -157,13 +155,12 @@ public class GestionDeVentas extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
     private void venderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_venderButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_venderButtonActionPerformed
 
     private void regresarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_regresarButtonActionPerformed
 
     /**

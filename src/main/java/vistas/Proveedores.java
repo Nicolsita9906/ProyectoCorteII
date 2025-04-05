@@ -7,6 +7,7 @@ package vistas;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import vistas.VentanaPrincipal;
 
 /**
  *
@@ -14,9 +15,8 @@ import javax.swing.JPanel;
  */
 public class Proveedores extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Proveedores
-     */
+    VentanaPrincipal vp = new VentanaPrincipal ();
+    
     public Proveedores() {
         FondoPanel fondo = new FondoPanel();
         this.setContentPane(fondo);
@@ -222,18 +222,14 @@ public class Proveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_cambiarButtonActionPerformed
 
     private void regresarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_regresarButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

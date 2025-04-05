@@ -14,10 +14,10 @@ import vistas.*;
  * @author NICOL VALERIA
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
-         Empleados ventanaEmp = new Empleados();
-         Proveedores ventanaProv = new Proveedores();
-         Productos ventanaProduc = new Productos();
-         GestionDeVentas ventanaVen = new GestionDeVentas();
+         Empleados ventanaEmp;
+         Proveedores ventanaProv;
+         Productos ventanaProduc;
+         GestionDeVentas ventanaVen;
     /**
      * Creates new form VentanaPrincipal
      */
@@ -174,18 +174,22 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void geActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_geActionPerformed
+        this.ventanaEmp = new Empleados();
         this.ventanaEmp.setVisible(true);
     }//GEN-LAST:event_geActionPerformed
 
     private void gprActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gprActionPerformed
+        this.ventanaProv = new Proveedores();
         this.ventanaProv.setVisible(true);
     }//GEN-LAST:event_gprActionPerformed
 
     private void gpdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gpdActionPerformed
+        this.ventanaProduc = new Productos();
         this.ventanaProduc.setVisible(true);
     }//GEN-LAST:event_gpdActionPerformed
 
     private void gvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gvActionPerformed
+        this.ventanaVen = new GestionDeVentas();
         this.ventanaVen.setVisible(true);
     }//GEN-LAST:event_gvActionPerformed
 
