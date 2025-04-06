@@ -6,9 +6,14 @@ import repository.VentaRepository;
 public class VentaService {
 
     VentaRepository servicio = new VentaRepository();
+    
+    
     public Venta crearVenta (Venta venta) {
         return servicio.crearVenta(venta);
     }    public ArrayList<Venta> listarVentas () {
         return servicio.getVentas();
+    }
+    public ArrayList <Venta> getVentas () {
+    	return servicio.getVentas();
     }
 }

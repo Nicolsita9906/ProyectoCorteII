@@ -1,13 +1,16 @@
 package controller;
 import modelos.Proveedores;
 import service.ProveedoresService;
+
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/Supermercado/proveedores")
 public class ProveedoresController {
-	private ProveedoresService control = new ProveedoresService();
+	private ProveedoresService control;
 
 	@Autowired
 	public ProveedoresController(ProveedoresService control) {
@@ -35,7 +38,7 @@ public class ProveedoresController {
     }
 	
 	@GetMapping
-    public void listarProveedores () {
-        control.listarProveedores();
+	public ArrayList <Proveedores> listarProveedores() {
+        return control.listarProveedores();
     }
 }

@@ -1,7 +1,7 @@
 package excepciones;
-
+import javax.swing.JFrame;
 public class StockBajo extends RuntimeException {
-    public StockBajo(String mensaje)  {
-        super(mensaje);
+    public StockBajo(JFrame ventana)  {
+        super();
     }
 }

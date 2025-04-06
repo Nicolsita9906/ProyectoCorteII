@@ -1,43 +1,75 @@
 package repository;
 import java.util.ArrayList;
-
+import excepciones.*;
+import vistas.*;
 import modelos.Proveedores;
 public class ProveedoresRepository {
     ArrayList<Proveedores> proveedores = new ArrayList<>();
-    public void agregarProveedor(Proveedores proveedor){
+    CodigoExistente codigoExistente = new CodigoExistente ();
+    FuncionExitosa exito = new FuncionExitosa ();
+    NoEncontrado noEncontrado = new NoEncontrado ();
+    
+    public ProveedoresRepository(ArrayList<Proveedores> proveedores) {
+		this.proveedores = proveedores;
+	}
+
+	public void agregarProveedor(Proveedores proveedor){
         for(Proveedores x : proveedores){
             if(x.getCodigo().equals(proveedor.getCodigo())){
-                System.out.println("El código ya existe en el sistema");
+            	try {
+                    throw new CodigoExistentee(codigoExistente);
+                } catch (CodigoExistentee e) {
+               	 codigoExistente.setVisible(true);
+                }
                 return;  
             }
         }
         proveedores.add(proveedor);
-        System.out.println("Proveedor agregado con éxito" + proveedor);
+        try {
+            throw new NotificarExito(exito);
+        } catch (NotificarExito e) {
+            exito.setVisible(true);
+        }  
     }
     
     public void eliminarProveedor(String codigo){
         for (Proveedores proveedor : proveedores){
             if(proveedor.getCodigo().equals(codigo)){
                 proveedores.remove(proveedor);
-                System.out.println("Proveedor eliminado con éxito");
+                try {
+                    throw new NotificarExito(exito);
+                } catch (NotificarExito e) {
+                    exito.setVisible(true);
+                }
                 return;  
             }
         }
-        System.out.println("El código no existe en el sistema");
+        try {
+            throw new NotificarExito(exito);
+        } catch (NotificarExito e) {
+            exito.setVisible(true);
+        }
     }
     
-    public void buscarProveedres(String codigo){
-        boolean encontrado = false;
+    public Proveedores buscarProveedres(String codigo){
+        
         for(Proveedores proveedor : proveedores){
-            if(proveedor.getCodigo().equals(codigo)){
-                System.out.println(proveedor);
-                encontrado = true;
-                break;  
+        	if (proveedor.getCodigo().equals(codigo)) {
+            	try {
+                    throw new NotificarExito(exito);
+                } catch (NotificarExito e) {
+                    exito.setVisible(true);
+                }
+                
+                return proveedor;
             }
         }
-        if (!encontrado) {
-            System.out.println("El código no existe en el sistema");
+        try {
+            throw new CodigoNoEncontrado(noEncontrado);
+        } catch (CodigoNoEncontrado e) {
+        	noEncontrado.setVisible(true);
         }
+            return null;
     }
     
     public void modificarProveedor(String codigo, Proveedores proveedor){
@@ -50,23 +82,25 @@ public class ProveedoresRepository {
                 x.setTelefono(proveedor.getTelefono());
                 x.setCantidadProductosIngresados(proveedor.getCantidadProductosIngresados());
                 x.setCategoriaProductos(proveedor.getCategoriaProductos());
-                System.out.println("Proveedor modificado con éxito");
+                try {
+                    throw new NotificarExito(exito);
+                } catch (NotificarExito e) {
+                    exito.setVisible(true);
+                }
                 encontrado = true;
                 break;  
             }
         }
         if (!encontrado) {
-            System.out.println("El código no existe en el sistema");
+        	try {
+                throw new CodigoNoEncontrado(noEncontrado);
+            } catch (CodigoNoEncontrado e) {
+            	noEncontrado.setVisible(true);
+            }
         }
     }
     
-    public void listarProveedores(){
-        if(proveedores.isEmpty()){
-            System.out.println("No hay proveedores en el sistema");
-        }else{
-            for(Proveedores proveedor : proveedores){
-                System.out.println(proveedor.toString());
-            }  
-        }
+    public ArrayList <Proveedores> listarProveedores(){
+      return proveedores;
     }
 }

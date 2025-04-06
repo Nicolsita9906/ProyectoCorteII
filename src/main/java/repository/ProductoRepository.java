@@ -1,22 +1,42 @@
 package repository;
 import java.time.LocalDate;
+import vistas.CodigoExistente;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
 import modelos.Categoria;
 import modelos.Productos;
+import excepciones.CodigoExistentee;
 import excepciones.StockBajo;
+import vistas.ErrorStockBajo;
+import vistas.FuncionExitosa;
+import excepciones.NotificarExito;
+import excepciones.CodigoNoEncontrado;
+import vistas.NoEncontrado;
+
 public class ProductoRepository {
     ArrayList<Productos> productos = new ArrayList<>();
+    ErrorStockBajo error = new ErrorStockBajo();
+    CodigoExistente codigoExistente = new CodigoExistente ();
+    FuncionExitosa exito = new FuncionExitosa ();
+    NoEncontrado noEncontrado = new NoEncontrado ();
 
     public Productos agregarProducto(Productos producto) {
         for (Productos x : productos) {
         	if (x.getCodigo().equals(producto.getCodigo())) {
-        		System.out.println("El codigo ya existe en el sistema");
+        		 try {
+                     throw new CodigoExistentee(codigoExistente);
+                 } catch (CodigoExistentee e) {
+                	 codigoExistente.setVisible(true);
+                 }
         	}
         }
         productos.add(producto);
-		System.out.println("Producto agregado con exito" + producto);
+        try {
+            throw new NotificarExito(exito);
+        } catch (NotificarExito e) {
+            exito.setVisible(true);
+        }
 		return producto;
 		
         
@@ -26,12 +46,20 @@ public class ProductoRepository {
         boolean encontrado = false;
         for (Productos x : this.productos) {
             if (x.getCodigo().equals(codigo)) {
-                System.out.println("Producto encontrado: " + x);
+            	try {
+                    throw new NotificarExito(exito);
+                } catch (NotificarExito e) {
+                    exito.setVisible(true);
+                }
                 encontrado = true;
                 return x;
             }
         }
-            System.out.println("El código no existe en el sistema");
+        try {
+            throw new CodigoNoEncontrado(noEncontrado);
+        } catch (CodigoNoEncontrado e) {
+        	noEncontrado.setVisible(true);
+        }
             return null;
         
     }
@@ -42,11 +70,19 @@ public class ProductoRepository {
             Productos x = iterator.next();
             if (x.getCodigo().equals(codigo)) {
                 iterator.remove();
-                System.out.println("Producto eliminado: " + x);
+                try {
+                    throw new NotificarExito(exito);
+                } catch (NotificarExito e) {
+                    exito.setVisible(true);
+                }
                 return;
             }
         }
-        System.out.println("El código no existe en el sistema");
+        try {
+            throw new CodigoNoEncontrado(noEncontrado);
+        } catch (CodigoNoEncontrado e) {
+        	noEncontrado.setVisible(true);
+        }
     }
 
     public void modificarProducto(String codigo, Productos producto) {
@@ -59,13 +95,21 @@ public class ProductoRepository {
                 x.setCodigo(producto.getCodigo());
                 x.setStock(producto.getStock());
                 x.setCategoria(producto.getCategoria());
-                System.out.println("Producto modificado: " + x.toString());
+                try {
+                    throw new NotificarExito(exito);
+                } catch (NotificarExito e) {
+                    exito.setVisible(true);
+                }
                 encontrado = true;
                 break;
             }
         }
         if (!encontrado) {
-            System.out.println("El código no existe en el sistema");
+        	try {
+                throw new CodigoNoEncontrado(noEncontrado);
+            } catch (CodigoNoEncontrado e) {
+            	noEncontrado.setVisible(true);
+            }
         }
     }
 
@@ -74,14 +118,13 @@ public class ProductoRepository {
             if (x.getCodigo().equals(codigo)) {
                 if (x.getStock() >= cantidad) {
                     x.setStock(x.getStock() - cantidad);
-                    System.out.println("Stock actualizado: " + x.toString());
                 } else {
                     System.out.println("No hay suficiente stock para realizar la venta");
                 }
                 return; 
             }
         }
-        System.out.println("El código no existe en el sistema");
+        
     }
 
     public double calcularTotalVenta(String codProd, int cantidad) {
@@ -94,13 +137,12 @@ public class ProductoRepository {
     }
 
     public ArrayList<Productos> mostrarProductos() {
-        if (productos.isEmpty()) {
-            System.out.println("No hay productos en el sistema");
-        } else {
+        
             for (Productos x : productos) {
+            	//mostrar productos en tabla
                 System.out.println(x);
             }
-        }
+        
         return this.productos;
     }
 
@@ -110,14 +152,12 @@ public class ProductoRepository {
             if (x.getStock() < 20) {
                 hayStockBajo = true;
                 try {
-                    throw new StockBajo("El producto " + x.getNombre() + " tiene un stock menor a 20, llame al proveedor");
+                    throw new StockBajo(error);
                 } catch (StockBajo e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), "Advertencia de Stock", JOptionPane.WARNING_MESSAGE);
+                    error.setVisible(true);
                 }
             }
         }
-        if (!hayStockBajo) {
-            System.out.println("Aún no se necesita suministrar productos");
-        }
+        return;
     }
 }

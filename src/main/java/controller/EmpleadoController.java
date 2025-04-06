@@ -1,13 +1,16 @@
 package controller;
 import modelos.Empleado;
 import service.EmpleadoService;
+
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/Supermercado/empleados")
 public class EmpleadoController {
-    private service.EmpleadoService control = new EmpleadoService();
+    private EmpleadoService control;
     
     @Autowired
     public EmpleadoController (EmpleadoService control) {
@@ -35,7 +38,7 @@ public class EmpleadoController {
     }
     
     @GetMapping
-    public void listarEmpleados(){
-        control.listarEmpleados();
+    public ArrayList <Empleado> listarEmpleados() {
+        return control.listarEmpleados();
     }
 }

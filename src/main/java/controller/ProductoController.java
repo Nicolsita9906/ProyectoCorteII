@@ -8,7 +8,7 @@ import service.ProductoService;
 @RestController
 @RequestMapping("/Supermercado/productos")
 public class ProductoController {
-    private ProductoService control = new ProductoService();
+    private ProductoService control;
     
     @Autowired
     public ProductoController(ProductoService control) {
