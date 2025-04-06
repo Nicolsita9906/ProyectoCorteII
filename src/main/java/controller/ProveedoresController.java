@@ -18,22 +18,22 @@ public class ProveedoresController {
 	}
 
 	@PostMapping
-	public void agregarProveedores (Proveedores proveedores) {
+	public void agregarProveedores (@RequestBody Proveedores proveedores) {
 		control.agregarProveedor(proveedores);
 	}
 
 	@GetMapping("/{codigo}")
-	public void buscarProveedres (String codigo) {
+	public void buscarProveedres (@PathVariable String codigo) {
 		control.buscarProveedres(codigo);		
 	}
 	
 	@DeleteMapping("/{codigo}")
-    public void eliminarProveedor (String codigo) {
+    public void eliminarProveedor (@PathVariable String codigo) {
         control.eliminarProveedor(codigo);
     }
 	
 	@PutMapping("/{codigo}")
-    public void modificarProveedor (String codigo, Proveedores proveedores) {
+    public void modificarProveedor (@PathVariable String codigo, @RequestBody Proveedores proveedores) {
         control.modificarProveedor(codigo, proveedores);
     }
 	

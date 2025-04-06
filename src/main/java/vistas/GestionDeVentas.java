@@ -99,6 +99,7 @@ public class GestionDeVentas extends javax.swing.JFrame {
         );
 
         jLabel2.setFont(new java.awt.Font("Georgia", 2, 48)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("VENTAS");
 
         jTable1.setBackground(new java.awt.Color(72, 36, 0));

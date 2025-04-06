@@ -14,26 +14,26 @@ public class EmpleadoController {
     
     @Autowired
     public EmpleadoController (EmpleadoService control) {
-    	control = control;
+    	this.control = control;
     }
     
     @PostMapping
-    public void agregarEmpleado(Empleado empleado){
+    public void agregarEmpleado(@RequestBody Empleado empleado){
         control.agregarEmplado(empleado);
     }
     
     @GetMapping("/{codigo}")
-    public  Empleado buscarEmpleado(String codigo){
+    public  Empleado buscarEmpleado(@PathVariable String codigo){
         return control.buscarEmpleado(codigo);
     }
     
     @DeleteMapping("/{codigo}")
-    public void eliminarEmpleado(String codigo){
+    public void eliminarEmpleado(@PathVariable String codigo){
         control.eliminarEmpleado(codigo);
     }
     
     @PutMapping("/{codigo}")
-    public void modificarEmpleado(String codigo, Empleado empleado){
+    public void modificarEmpleado(@PathVariable String codigo, @RequestBody Empleado empleado){
         control.modificarEmpleado(codigo, empleado);
     }
     

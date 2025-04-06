@@ -17,38 +17,54 @@ public class VentaRepository {
 	private ProductoRepository producto = new ProductoRepository ();
 	FuncionExitosa exito = new FuncionExitosa ();
     NoEncontrado noEncontrado = new NoEncontrado ();
-
+	
+	public VentaRepository() {
+		
+	}
 	public Productos agregarProducto (String codProducto) {
 		
 		return producto.buscarProducto(codProducto);
 	}
 	
-	public Venta crearVenta (Venta venta) {
-		ArrayList <Productos> productos = new ArrayList <Productos>();
-		//validar si hay que agregar mas productos
-		int response = JOptionPane.showConfirmDialog(null, "Desea agregar mas productos?", "Confirmar", JOptionPane.YES_NO_OPTION);
-        if (response == JOptionPane.YES_OPTION) {
-            //agregar productos
-            if (agregarProducto(venta.getCodProd()) != null){
-                productos.add(agregarProducto(venta.getCodProd()));
-                producto.notificarStock();
-			}else{
-				try {
-		            throw new CodigoNoEncontrado(noEncontrado);
-		        } catch (CodigoNoEncontrado e) {
-		        	noEncontrado.setVisible(true);
-		        }
-		}
-		}
-        try {
-            throw new NotificarExito(exito);
-        } catch (NotificarExito e) {
-            exito.setVisible(true);
-        }
-		ventas.add(venta);
-		//mesaje venta realizada con exito
-		return venta;
-	}	
+	public Venta crearVenta(Venta venta) {
+	    // Lista para acumular los productos agregados a la venta
+	    ArrayList<Productos> productosAgregados = new ArrayList<>();
+
+	    // Preguntar si se desea agregar más productos
+	    int response = JOptionPane.showConfirmDialog(null, "Desea agregar mas productos?", "Confirmar", JOptionPane.YES_NO_OPTION);
+	    if (response == JOptionPane.YES_OPTION) {
+	        // Iterar sobre cada código de producto contenido en la venta
+	        for (String codigoProd : venta.getCodProd()) {
+	            Productos prod = agregarProducto(codigoProd);
+	            if (prod != null) {
+	                productosAgregados.add(prod);
+	                producto.notificarStock();
+	            } else {
+	                try {
+	                    // Se lanza y captura la excepción para notificar que el código no se encontró
+	                    throw new CodigoNoEncontrado(noEncontrado);
+	                } catch (CodigoNoEncontrado e) {
+	                    noEncontrado.setVisible(true);
+	                }
+	            }
+	        }
+	    }
+
+	    // Actualizamos la venta con la lista de productos encontrados
+	    venta.setProductos(productosAgregados);
+
+	    try {
+	        // Notificar que la venta se realizó con éxito
+	        throw new NotificarExito(exito);
+	    } catch (NotificarExito e) {
+	        exito.setVisible(true);
+	    }
+	    
+	    // Agregar la venta a la lista de ventas
+	    ventas.add(venta);
+	    return venta;
+	}
+
 	
 	public VentaRepository(ArrayList<Venta> ventas) {
 		super();

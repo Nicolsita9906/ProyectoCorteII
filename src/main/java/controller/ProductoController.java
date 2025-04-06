@@ -16,32 +16,25 @@ public class ProductoController {
 	}
 
     @PostMapping
-	public Productos agregarProducto(Productos producto){
+	public Productos agregarProducto(@RequestBody Productos producto){
         return control.agregarProducto(producto);
     }
     
     @GetMapping("/{codigo}")
-    public  Productos buscarProducto(String codigo){
+    public  Productos buscarProducto(@PathVariable String codigo){
         return control.buscarProducto(codigo);
     }
     
     @DeleteMapping("/{codigo}")
-    public void eliminarProducto(String codigo){
+    public void eliminarProducto(@PathVariable String codigo){
         control.eliminarProducto(codigo);
     }
     
     @PutMapping("/{codigo}")
-    public void modificarProducto(String codigo, Productos producto){
+    public void modificarProducto(@PathVariable String codigo, @RequestBody Productos producto){
         control.modificarProducto(codigo, producto);
     }
-    
-    
-    public void restarProductos(int cantidad, String codigo){
-        control.restarProductos(cantidad, codigo);
-    }
-    public double calcularTotalVenta(String codProd, int cantidad){
-        return control.calcularTotalVenta(codProd, cantidad);
-    }
+  
     
     @GetMapping
     public ArrayList<Productos> mostrarProductos(){

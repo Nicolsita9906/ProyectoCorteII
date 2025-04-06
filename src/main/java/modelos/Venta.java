@@ -6,11 +6,11 @@ public class Venta {
 	private ArrayList <Productos> productos;
     private LocalDate fechaVenta;
     private String codEmp;
-    private String codProd;
+    private ArrayList <String> codProd;
     private int cantidad;
     private double totalVenta;
     
-    public Venta(LocalDate fechaVenta, String codEmp, String codProd, int cantidad, double totalVenta, ArrayList <Productos> productos) {
+    public Venta(LocalDate fechaVenta, String codEmp, ArrayList <String> codProd, int cantidad, double totalVenta, ArrayList <Productos> productos) {
        this.productos = productos;
     	this.fechaVenta = fechaVenta;
         this.codEmp = codEmp;
@@ -43,11 +43,11 @@ public class Venta {
         this.codEmp = codEmp;
     }
     
-    public String getCodProd() {
+    public ArrayList <String> getCodProd() {
         return codProd;
     }
     
-    public void setCodProd(String codProd) {
+    public void setCodProd(ArrayList <String> codProd) {
         this.codProd = codProd;
     }
     
