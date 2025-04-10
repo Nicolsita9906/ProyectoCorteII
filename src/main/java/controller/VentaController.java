@@ -1,13 +1,18 @@
 package controller;
+
 import java.util.ArrayList;
 import modelos.Venta;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import repository.*;
 import service.VentaService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping("/Supermercado/ventas")
 public class VentaController {
+
     ProductoRepository prod = new ProductoRepository();
     EmpleadoRepository emp = new EmpleadoRepository();
     VentaRepository ventaRepo = new VentaRepository(prod, emp);
@@ -19,12 +24,21 @@ public class VentaController {
     }
 
     @PostMapping("/vender")
-    public Venta agregarVenta(@RequestBody Venta venta) {
-        return control.agregarVenta(venta);
-    }
-        @GetMapping
-        public ArrayList<Venta> mostrarVentas() {
-        return control.mostrarVentas();
+    public ResponseEntity<String> agregarVenta(@RequestBody Venta venta) {
+        Venta nuevaVenta = control.agregarVenta(venta);
+        if (nuevaVenta != null) {
+            return new ResponseEntity<>( HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+        }
     }
 
+    @GetMapping
+    public ResponseEntity<ArrayList<Venta>> mostrarVentas() {
+        ArrayList<Venta> ventas = control.mostrarVentas();
+        if (ventas.isEmpty()) {
+            return new ResponseEntity<>(ventas, HttpStatus.NO_CONTENT); // 204
+        }
+        return new ResponseEntity<>(ventas, HttpStatus.OK); 
+    }
 }
