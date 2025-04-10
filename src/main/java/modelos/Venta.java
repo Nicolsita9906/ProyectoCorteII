@@ -2,69 +2,76 @@ package modelos;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import modelos.Productos;
+import java.util.UUID;
+import repository.ProductoRepository;
+import modelos.Productos;
+
 public class Venta {
-	private ArrayList <Productos> productos;
+    private String codProd;
     private LocalDate fechaVenta;
     private String codEmp;
-    private ArrayList <String> codProd;
     private int cantidad;
     private double totalVenta;
+    private String codVenta;
+    private ProductoRepository prod = new ProductoRepository();
+    public Venta(String codVenta){
+        this.codVenta = UUID.randomUUID().toString();
+    }
     
-    public Venta(LocalDate fechaVenta, String codEmp, ArrayList <String> codProd, int cantidad, double totalVenta, ArrayList <Productos> productos) {
-       this.productos = productos;
-    	this.fechaVenta = fechaVenta;
-        this.codEmp = codEmp;
+    public Venta(String codProd, LocalDate fechaVenta, String codEmp, int cantidad) {
         this.codProd = codProd;
+        this.fechaVenta = fechaVenta;
+        this.codEmp = codEmp;
         this.cantidad = cantidad;
-        this.totalVenta = totalVenta;
+        this.codVenta = UUID.randomUUID().toString();
+        this.totalVenta = calcularTotalVenta(codProd, cantidad);
+    }
+    public double calcularTotalVenta(String codProd, int cantidad) {
+        ArrayList <Productos> productos = prod.mostrarProductos();
+        for (Productos producto : productos) {
+            if (producto.getCodigo().equals(codProd)) {
+                return producto.getPrecio() * cantidad;
+            }
+        }
+        return 0.0;
     }
     
-    public ArrayList<Productos> getProductos() {
-		return productos;
-	}
-
-	public void setProductos(ArrayList<Productos> productos) {
-		this.productos = productos;
-	}
-
-	public LocalDate getFechaVenta() {
-        return fechaVenta;
+    public String getCodProd() {
+        return codProd; 
     }
-    
+    public void setCodProd(String codProd) {
+        this.codProd = codProd; 
+    }
+    public LocalDate getFechaVenta() {
+        return fechaVenta; 
+    }
     public void setFechaVenta(LocalDate fechaVenta) {
         this.fechaVenta = fechaVenta;
     }
-    
     public String getCodEmp() {
         return codEmp;
     }
-    
     public void setCodEmp(String codEmp) {
         this.codEmp = codEmp;
     }
-    
-    public ArrayList <String> getCodProd() {
-        return codProd;
-    }
-    
-    public void setCodProd(ArrayList <String> codProd) {
-        this.codProd = codProd;
-    }
-    
     public int getCantidad() {
         return cantidad;
     }
-    
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
-    
+    public String getCodVenta() {
+        return codVenta;
+    }
+    public void setCodVenta(String codVenta) {
+        this.codVenta = codVenta;
+    }
     public double getTotalVenta() {
         return totalVenta;
     }
-    
     public void setTotalVenta(double totalVenta) {
         this.totalVenta = totalVenta;
     }
-    
+
+
 }

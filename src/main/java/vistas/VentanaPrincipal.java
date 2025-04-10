@@ -4,9 +4,14 @@
  */
 package vistas;
 
+import controller.EmpleadoController;
+import controller.ProductoController;
+import controller.ProveedoresController;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import repository.*;
+import service.*;
 import vistas.*;
 
 /**
@@ -14,9 +19,9 @@ import vistas.*;
  * @author NICOL VALERIA
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
-         Empleados ventanaEmp;
-         Proveedores ventanaProv;
-         Productos ventanaProduc;
+         EmpleadosVistas ventanaEmp;
+         ProveedoresVistas ventanaProv;
+         ProductosVistas ventanaProduc;
          GestionDeVentas ventanaVen;
     /**
      * Creates new form VentanaPrincipal
@@ -174,22 +179,22 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void geActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_geActionPerformed
-        this.ventanaEmp = new Empleados();
+        this.ventanaEmp = new EmpleadosVistas(new EmpleadoService(new EmpleadoRepository()));
         this.ventanaEmp.setVisible(true);
     }//GEN-LAST:event_geActionPerformed
 
     private void gprActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gprActionPerformed
-        this.ventanaProv = new Proveedores();
+        this.ventanaProv = new ProveedoresVistas(new ProveedoresService(new ProveedoresRepository()));
         this.ventanaProv.setVisible(true);
     }//GEN-LAST:event_gprActionPerformed
 
     private void gpdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gpdActionPerformed
-        this.ventanaProduc = new Productos();
+       this.ventanaProduc = new ProductosVistas(new ProductoService(new ProductoRepository()));
         this.ventanaProduc.setVisible(true);
     }//GEN-LAST:event_gpdActionPerformed
 
     private void gvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gvActionPerformed
-        this.ventanaVen = new GestionDeVentas();
+        this.ventanaVen = new GestionDeVentas(new VentaService(new VentaRepository()));
         this.ventanaVen.setVisible(true);
     }//GEN-LAST:event_gvActionPerformed
 

@@ -6,19 +6,32 @@ package vistas;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import service.VentaService;
+import modelos.Venta;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import repository.VentaRepository;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
 
 /**
  *
  * @author NICOL VALERIA
  */
 public class GestionDeVentas extends javax.swing.JFrame {
+    VentaService control;
     /**
      * Creates new form GestionDeVentas
      */
-    public GestionDeVentas() {
+    public GestionDeVentas(VentaService control) {
+        this.control = control;
         FondoPanel fondo = new FondoPanel();
         this.setContentPane(fondo);
         initComponents();
+        cargarTabla();
     }
 
     /**
@@ -34,6 +47,14 @@ public class GestionDeVentas extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         venderButton = new javax.swing.JButton();
         regresarButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        codEmp = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        codProd = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        ffVenta = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        cant = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -69,6 +90,43 @@ public class GestionDeVentas extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Codigo empleado:");
+
+        codEmp.setBackground(new java.awt.Color(72, 36, 0));
+        codEmp.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        codEmp.setForeground(new java.awt.Color(255, 255, 255));
+       
+
+        jLabel4.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Codigo Producto:");
+
+        codProd.setBackground(new java.awt.Color(72, 36, 0));
+        codProd.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        codProd.setForeground(new java.awt.Color(255, 255, 255));
+        
+
+        jLabel5.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Fecha venta:");
+
+        ffVenta.setBackground(new java.awt.Color(72, 36, 0));
+        ffVenta.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        ffVenta.setForeground(new java.awt.Color(255, 255, 255));
+        ffVenta.setText("dd/mm/yyyy");
+       
+
+        jLabel6.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Cantidad:");
+
+        cant.setBackground(new java.awt.Color(72, 36, 0));
+        cant.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        cant.setForeground(new java.awt.Color(255, 255, 255));
+       
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -76,26 +134,60 @@ public class GestionDeVentas extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
+                        .addGap(99, 99, 99)
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(venderButton))
+                        .addContainerGap()
+                        .addComponent(jLabel3))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(regresarButton)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(codProd, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(codEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ffVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cant, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel6))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(regresarButton)
+                            .addComponent(venderButton))))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addGap(162, 162, 162)
-                .addComponent(venderButton)
+                .addGap(31, 31, 31)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(codEmp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(codProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ffVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(venderButton)
+                .addGap(18, 18, 18)
                 .addComponent(regresarButton)
-                .addGap(35, 35, 35))
+                .addGap(40, 40, 40))
         );
 
         jLabel2.setFont(new java.awt.Font("Georgia", 2, 48)); // NOI18N
@@ -106,17 +198,17 @@ public class GestionDeVentas extends javax.swing.JFrame {
         jTable1.setForeground(new java.awt.Color(255, 255, 255));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Fecha de venta", "Codigo empleado", "Codigo producto", "Cantidad", "Total venta $"
+                "Codigo venta", "Codigo empleado", "Codigo producto", "Fecha de venta", "Cantidad", "Total venta $"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -134,14 +226,14 @@ public class GestionDeVentas extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(162, 162, 162)
-                        .addComponent(jLabel2)))
-                .addGap(0, 14, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(213, 213, 213))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 618, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,30 +241,31 @@ public class GestionDeVentas extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+                .addGap(21, 21, 21))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void venderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_venderButtonActionPerformed
-        // TODO add your handling code here:
+        String codEmpleado = codEmp.getText();
+        String codProducto = codProd.getText();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate fechaVenta = LocalDate.parse(ffVenta.getText(),formatter );
+        int cantidad = Integer.parseInt(cant.getText());
+        // Fix the parameter order to match Venta constructor
+        Venta venta = new Venta(codProducto, fechaVenta, codEmpleado, cantidad);
+        control.agregarVenta(venta);
+        limpiarCampos();
+        cargarTabla();  
     }//GEN-LAST:event_venderButtonActionPerformed
 
     private void regresarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarButtonActionPerformed
         this.dispose();
     }//GEN-LAST:event_regresarButtonActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+       public static void main(String args[]) {
+       
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -194,20 +287,52 @@ public class GestionDeVentas extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GestionDeVentas().setVisible(true);
+                new GestionDeVentas(new VentaService(new VentaRepository())).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField cant;
+    private javax.swing.JTextField codEmp;
+    private javax.swing.JTextField codProd;
+    private javax.swing.JTextField ffVenta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton regresarButton;
     private javax.swing.JButton venderButton;
     // End of variables declaration//GEN-END:variables
+    private void limpiarCampos() {
+        codEmp.setText("");
+        codProd.setText("");
+        ffVenta.setText("dd/mm/yyyy");
+        cant.setText("");
+    }
+    
+    private void cargarTabla() {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0); // Limpiar la tabla
+    
+        ArrayList<Venta> lista = control.mostrarVentas(); // Asegúrate de que este método exista en VentaService
+    
+        for (Venta venta : lista) {
+            model.addRow(new Object[]{
+                venta.getCodVenta(),
+                venta.getCodEmp(),
+                venta.getCodProd(),
+                venta.getFechaVenta(),
+                venta.getCantidad(),
+                venta.getTotalVenta()
+            });
+        }
+    }
 
 public class FondoPanel extends JPanel {
        

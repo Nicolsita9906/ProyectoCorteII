@@ -9,27 +9,26 @@ public class ProveedoresRepository {
     FuncionExitosa exito = new FuncionExitosa ();
     NoEncontrado noEncontrado = new NoEncontrado ();
     
-    public ProveedoresRepository(ArrayList<Proveedores> proveedores) {
-		this.proveedores = proveedores;
+    public ProveedoresRepository() {
 	}
 
-	public void agregarProveedor(Proveedores proveedor){
-        for(Proveedores x : proveedores){
-            if(x.getCodigo().equals(proveedor.getCodigo())){
-            	try {
-                    throw new CodigoExistentee(codigoExistente);
-                } catch (CodigoExistentee e) {
-               	 codigoExistente.setVisible(true);
-                }
-                return;  
-            }
+	public Proveedores agregarProveedor(Proveedores proveedor) {
+        for (Proveedores x : proveedores) {
+        	if (x.getCodigo().equals(proveedor.getCodigo())) {
+        		 try {
+                     throw new CodigoExistentee(codigoExistente);
+                 } catch (CodigoExistentee e) {
+                	 codigoExistente.setVisible(true);
+                 }
+        	}
         }
         proveedores.add(proveedor);
         try {
             throw new NotificarExito(exito);
         } catch (NotificarExito e) {
             exito.setVisible(true);
-        }  
+        }
+		return proveedor;
     }
     
     public void eliminarProveedor(String codigo){
@@ -55,21 +54,10 @@ public class ProveedoresRepository {
         
         for(Proveedores proveedor : proveedores){
         	if (proveedor.getCodigo().equals(codigo)) {
-            	try {
-                    throw new NotificarExito(exito);
-                } catch (NotificarExito e) {
-                    exito.setVisible(true);
-                }
-                
                 return proveedor;
             }
         }
-        try {
-            throw new CodigoNoEncontrado(noEncontrado);
-        } catch (CodigoNoEncontrado e) {
-        	noEncontrado.setVisible(true);
-        }
-            return null;
+          return null;
     }
     
     public void modificarProveedor(String codigo, Proveedores proveedor){

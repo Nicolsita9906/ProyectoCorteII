@@ -3,24 +3,41 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package vistas;
-
+import controller.EmpleadoController;
+import excepciones.CodigoNoEncontrado;
+import excepciones.NotificarExito;
+import repository.EmpleadoRepository;
+import service.EmpleadoService;
 import java.awt.Graphics;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import modelos.Empleado;
+import modelos.TipoDeDocumento;
 
 /**
  *
  * @author NICOL VALERIA
  */
-public class Empleados extends javax.swing.JFrame {
+public class EmpleadosVistas extends javax.swing.JFrame {
+	EmpleadoService control;
+	  FuncionExitosa exito = new FuncionExitosa ();
+	     NoEncontrado noEncontrado = new NoEncontrado ();
 
     /**
      * Creates new form EliminarEmpleado
      */
-    public Empleados() {
+    public EmpleadosVistas(EmpleadoService control) {
+        exito.setVisible(false);
+        noEncontrado.setVisible(false);
+    	this.control = control;
          FondoPanel fondo = new FondoPanel();
          this.setContentPane(fondo);
         initComponents();
+        cargarTabla();
     }
 
     /**
@@ -42,6 +59,16 @@ public class Empleados extends javax.swing.JFrame {
         regresarButton = new javax.swing.JButton();
         agregarButton = new javax.swing.JButton();
         buscarButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        nDoc = new javax.swing.JTextField();
+        nom = new javax.swing.JTextField();
+        busCod = new javax.swing.JTextField();
+        ffIng = new javax.swing.JTextField();
+        tDoc = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,6 +166,49 @@ public class Empleados extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Nombre:");
+
+        jLabel2.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Tipo Documento:");
+
+        jLabel3.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("N° Documento:");
+
+        jLabel4.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Fecha Ingreso:");
+
+        jLabel5.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Codigo:");
+
+        nDoc.setBackground(new java.awt.Color(72, 36, 0));
+        nDoc.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        nDoc.setForeground(new java.awt.Color(255, 255, 255));
+
+        nom.setBackground(new java.awt.Color(72, 36, 0));
+        nom.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        nom.setForeground(new java.awt.Color(255, 255, 255));
+
+        busCod.setBackground(new java.awt.Color(72, 36, 0));
+        busCod.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        busCod.setForeground(new java.awt.Color(255, 255, 255));
+        busCod.setText("(Solo para busquedas)");
+       
+
+        ffIng.setBackground(new java.awt.Color(72, 36, 0));
+        ffIng.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        ffIng.setForeground(new java.awt.Color(255, 255, 255));
+       
+        tDoc.setBackground(new java.awt.Color(72, 36, 0));
+        tDoc.setFont(new java.awt.Font("Georgia", 2, 12)); // NOI18N
+        tDoc.setForeground(new java.awt.Color(255, 255, 255));
+        tDoc.setModel(new javax.swing.DefaultComboBoxModel<>(new TipoDeDocumento[] { null, TipoDeDocumento.CC, TipoDeDocumento.TI, TipoDeDocumento.CE, TipoDeDocumento.CD }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -146,37 +216,87 @@ public class Empleados extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(eliminarButton)
-                            .addComponent(cambiarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(buscarButton)
-                                .addComponent(agregarButton))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(55, 55, 55)
+                                .addComponent(nombreEmp))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(regresarButton))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(busCod)))
+                        .addGap(0, 5, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(regresarButton))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(nombreEmp)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nom, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ffIng, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)))))
+                .addContainerGap(11, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(eliminarButton)
+                    .addComponent(cambiarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(agregarButton)
+                    .addComponent(buscarButton))
+                .addGap(15, 15, 15))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(nombreEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(nom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(nDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(ffIng, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(busCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(eliminarButton)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cambiarButton)
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(agregarButton)
-                .addGap(33, 33, 33)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(buscarButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(regresarButton)
-                .addGap(48, 48, 48))
+                .addGap(16, 16, 16))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -187,10 +307,10 @@ public class Empleados extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
+                        .addGap(7, 7, 7)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(15, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(22, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(109, 109, 109))))
@@ -210,73 +330,116 @@ public class Empleados extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cambiarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambiarButtonActionPerformed
-        // TODO add your handling code here:
+       String nombreEmp = nom.getText();
+       TipoDeDocumento tipDocumento = (TipoDeDocumento) tDoc.getSelectedItem();
+       String numeroDoc = nDoc.getText();
+       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+       LocalDate fechaProd = LocalDate.parse(ffIng.getText(),formatter );
+       String buscar = busCod.getText();
+       
+       control.modificarEmpleado(buscar, new Empleado (nombreEmp, tipDocumento, numeroDoc, fechaProd));
+       cargarTabla();
+       limpiarCampos();
+       
     }//GEN-LAST:event_cambiarButtonActionPerformed
 
     private void agregarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarButtonActionPerformed
-        // TODO add your handling code here:
+    	String nombreEmp = nom.getText();
+        TipoDeDocumento tipDocumento = (TipoDeDocumento) tDoc.getSelectedItem();
+        String numeroDoc = nDoc.getText();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate fechaProd = LocalDate.parse(ffIng.getText(),formatter );
+        
+        control.agregarEmplado(new Empleado (nombreEmp, tipDocumento, numeroDoc, fechaProd));
+        cargarTabla();
+        limpiarCampos();
     }//GEN-LAST:event_agregarButtonActionPerformed
 
     private void eliminarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarButtonActionPerformed
-        // TODO add your handling code here:
+        String buscar = busCod.getText();
+        control.eliminarEmpleado(buscar);
+        cargarTabla();
+        limpiarCampos();
     }//GEN-LAST:event_eliminarButtonActionPerformed
 
     private void buscarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarButtonActionPerformed
-        // TODO add your handling code here:
+        String buscar = busCod.getText();
+    	Empleado busqueda = control.buscarEmpleado(buscar);
+    	
+    	if (busqueda != null) {
+    		nom.setText(busqueda.getNombreEmpleado());
+    		tDoc.setSelectedItem(busqueda.getTipoDocumento());
+    		nDoc.setText(busqueda.getNumeroDocuemento());
+    		ffIng.setText(String.valueOf(busqueda.getFechaIngreso()));	
+    		
+    		 try {
+                 throw new NotificarExito(exito);
+             } catch (NotificarExito e) {
+                 exito.setVisible(true);
+             }
+    		
+    	} else {
+              try {
+             throw new CodigoNoEncontrado(noEncontrado);
+         } catch (CodigoNoEncontrado e) {
+         	noEncontrado.setVisible(true);
+         }	
+    	}
+    	
     }//GEN-LAST:event_buscarButtonActionPerformed
 
     private void regresarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarButtonActionPerformed
         this.dispose();
     }//GEN-LAST:event_regresarButtonActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Empleados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Empleados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Empleados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Empleados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Empleados().setVisible(true);
-            }
-        });
-    }
-
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregarButton;
+    private javax.swing.JTextField busCod;
     private javax.swing.JButton buscarButton;
     private javax.swing.JButton cambiarButton;
     private javax.swing.JButton eliminarButton;
     private javax.swing.JTable empleados;
+    private javax.swing.JTextField ffIng;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField nDoc;
+    private javax.swing.JTextField nom;
     private javax.swing.JLabel nombreEmp;
     private javax.swing.JButton regresarButton;
+    private javax.swing.JComboBox<TipoDeDocumento> tDoc;
     private javax.swing.JLabel titulo;
     // End of variables declaration//GEN-END:variables
+    
+    private void limpiarCampos (){
+        nom.setText(" ");
+        nDoc.setText(" ");
+        ffIng.setText("dd/MM/yyyy");
+        busCod.setText("(solo para busquedad)");
+        tDoc.setSelectedIndex(0);
+    }
+    
+    private void cargarTabla() {
+        DefaultTableModel model = (DefaultTableModel) empleados.getModel();
+        model.setRowCount(0); // Limpiar la tabla
+
+        ArrayList<Empleado> lista = control.listarEmpleados(); // Asegúrate de que esto no sea null
+
+        for (Empleado emp : lista) {
+            model.addRow(new Object[]{
+                emp.getNombreEmpleado(),
+                emp.getCodigo(),
+                emp.getTipoDocumento(),
+                emp.getNumeroDocuemento(),
+                emp.getFechaIngreso()
+            });
+        }
+    }
+    
 public class FondoPanel extends JPanel {
        
          @Override

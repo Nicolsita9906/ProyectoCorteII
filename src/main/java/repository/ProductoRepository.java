@@ -12,6 +12,7 @@ import vistas.ErrorStockBajo;
 import vistas.FuncionExitosa;
 import excepciones.NotificarExito;
 import excepciones.CodigoNoEncontrado;
+import static java.awt.SystemColor.control;
 import vistas.NoEncontrado;
 
 public class ProductoRepository {
@@ -38,31 +39,17 @@ public class ProductoRepository {
             exito.setVisible(true);
         }
 		return producto;
-		
-        
     }
 
-    public  Productos buscarProducto(String codigo) {
-        boolean encontrado = false;
-        for (Productos x : this.productos) {
-            if (x.getCodigo().equals(codigo)) {
-            	try {
-                    throw new NotificarExito(exito);
-                } catch (NotificarExito e) {
-                    exito.setVisible(true);
-                }
-                encontrado = true;
-                return x;
-            }
+    public Productos buscarProducto(String codigo) {
+    for (Productos x : this.productos) {
+        if (x.getCodigo().equals(codigo)) {
+            return x; // si lo encuentra, lo retorna
         }
-        try {
-            throw new CodigoNoEncontrado(noEncontrado);
-        } catch (CodigoNoEncontrado e) {
-        	noEncontrado.setVisible(true);
-        }
-            return null;
-        
     }
+    return null; // si no encuentra ninguno, retorna null
+}
+
 
     public void eliminarProducto(String codigo) {
         Iterator<Productos> iterator = productos.iterator();
@@ -160,4 +147,6 @@ public class ProductoRepository {
         }
         return;
     }
+ 
+
 }

@@ -12,8 +12,7 @@ private Categoria categoriaProductos;
 public Proveedores (String codigo) {
 	this.codigo = UUID.randomUUID().toString();
 }
-public Proveedores(String nombreProveedor, String empresa, String telefono, int cantidadProductosIngresados,
-		Categoria categoriaProductos) {
+public Proveedores(String nombreProveedor, String empresa, String telefono, int cantidadProductosIngresados, Categoria categoriaProductos) {
 	this.codigo = UUID.randomUUID().toString();
 	this.nombreProveedor = nombreProveedor;
 	this.empresa = empresa;

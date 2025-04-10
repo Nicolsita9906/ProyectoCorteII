@@ -10,6 +10,7 @@ public class ProveedoresService {
 	
 	 public ProveedoresService(ProveedoresRepository servicio) {
 		this.servicio = servicio;
+		datosMuertos();
 	}
 
 	 public void datosMuertos () {
@@ -22,8 +23,8 @@ public class ProveedoresService {
 	 }
 	 
 	 
-	public void agregarProveedor(Proveedores proveedor) {
-		 servicio.agregarProveedor(proveedor);
+	public Proveedores agregarProveedor(Proveedores proveedor) {
+		return servicio.agregarProveedor(proveedor);
 	 }
 	 
 	 public void eliminarProveedor(String codigo) {

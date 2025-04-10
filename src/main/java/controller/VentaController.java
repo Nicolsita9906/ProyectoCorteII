@@ -1,5 +1,5 @@
 package controller;
-import java.util.List;
+import java.util.ArrayList;
 import modelos.Venta;
 import repository.VentaRepository;
 import service.VentaService;
@@ -8,20 +8,20 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/Supermercado/ventas")
 public class VentaController {
-    private VentaService ventaService = new VentaService(new VentaRepository());
+    private VentaService control = new VentaService(new VentaRepository());
 
     @Autowired
-    public VentaController(VentaService ventaService) {
-        ventaService = ventaService;
+    public VentaController(VentaService control) {
+        this.control = control;
     }
 
     @PostMapping("/vender")
-    public Venta crearVenta(@RequestBody Venta venta) {
-        return ventaService.crearVenta(venta);
+    public Venta agregarVenta(@RequestBody Venta venta) {
+        return control.agregarVenta(venta);
     }
         @GetMapping
-        public List<Venta> getVentas() {
-        return ventaService.getVentas();
+        public ArrayList<Venta> mostrarVentas() {
+        return control.mostrarVentas();
     }
 
 }

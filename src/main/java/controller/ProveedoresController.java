@@ -18,8 +18,8 @@ public class ProveedoresController {
 	}
 
 	@PostMapping
-	public void agregarProveedores (@RequestBody Proveedores proveedores) {
-		control.agregarProveedor(proveedores);
+	public Proveedores agregarProveedores (@RequestBody Proveedores proveedores) {
+		return control.agregarProveedor(proveedores);
 	}
 
 	@GetMapping("/{codigo}")

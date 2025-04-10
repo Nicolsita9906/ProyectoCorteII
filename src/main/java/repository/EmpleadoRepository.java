@@ -11,47 +11,34 @@ public class EmpleadoRepository {
     FuncionExitosa exito = new FuncionExitosa ();
     NoEncontrado noEncontrado = new NoEncontrado ();
 
-    public void agregarEmpleado(Empleado empleado) {
-        for (Empleado emp : empleados) {
-            if (emp.getCodigo().equals(empleado.getCodigo()) || emp.getNumeroDocuemento().equals(empleado.getNumeroDocuemento())) {
-            	try {
-                    throw new CodigoExistentee(codigoExistente);
-                } catch (CodigoExistentee e) {
-               	 codigoExistente.setVisible(true);
-                }
-                return; 
-            }else {
-            	try {
-                    throw new NotificarExito(exito);
-                } catch (NotificarExito e) {
-                    exito.setVisible(true);
-                }
-            	empleados.add(empleado);
-            	
-            }
+    public Empleado agregarEmpleado(Empleado empleado) {
+        for (Empleado x : empleados) {
+        	if (x.getCodigo().equals(empleado.getCodigo())) {
+        		 try {
+                     throw new CodigoExistentee(codigoExistente);
+                 } catch (CodigoExistentee e) {
+                	 codigoExistente.setVisible(true);
+                 }
+        	}
         }
+        empleados.add(empleado);
+        try {
+            throw new NotificarExito(exito);
+        } catch (NotificarExito e) {
+            exito.setVisible(true);
+        }
+		return empleado;
+		
+        
     }
 
     public Empleado buscarEmpleado(String codigo) {
-        boolean encontrado = false;
         for (Empleado x : empleados) {
             if (x.getCodigo().equals(codigo)) {
-            	try {
-                    throw new NotificarExito(exito);
-                } catch (NotificarExito e) {
-                    exito.setVisible(true);
-                }
-                encontrado = true;
-                return x;
+              return x; // si lo encuentra, lo retorna
             }
         }
-       
-        try {
-            throw new CodigoNoEncontrado(noEncontrado);
-        } catch (CodigoNoEncontrado e) {
-        	noEncontrado.setVisible(true);
-        }
-            return null;
+        return null; // si no encuentra ninguno, retorna null
     }
 
     public void eliminarEmpleado(String codigo) {
@@ -74,21 +61,20 @@ public class EmpleadoRepository {
     }
 
     public void modificarEmpleado(String codigo, Empleado empleado) {
-        boolean encontrado = false;
+    	boolean encontrado = false;
         for (Empleado x : empleados) {
             if (x.getCodigo().equals(codigo)) {
                 x.setNombreEmpleado(empleado.getNombreEmpleado());
-                x.setCodigo(empleado.getCodigo());
+                x.setTipoDocumento(empleado.getTipoDocumento());
                 x.setNumeroDocuemento(empleado.getNumeroDocuemento());
                 x.setFechaIngreso(empleado.getFechaIngreso());
-                x.setTipoDocumento(empleado.getTipoDocumento());
                 try {
                     throw new NotificarExito(exito);
                 } catch (NotificarExito e) {
                     exito.setVisible(true);
                 }
                 encontrado = true;
-                break; 
+                break;
             }
         }
         if (!encontrado) {
@@ -98,7 +84,8 @@ public class EmpleadoRepository {
             	noEncontrado.setVisible(true);
             }
         }
-    } 
+    }
+     
     public ArrayList <Empleado> listarEmpleados() {
        return empleados;
     }
