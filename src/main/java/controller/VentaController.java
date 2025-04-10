@@ -1,14 +1,17 @@
 package controller;
 import java.util.ArrayList;
 import modelos.Venta;
-import repository.VentaRepository;
+import repository.*;
 import service.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/Supermercado/ventas")
 public class VentaController {
-    private VentaService control = new VentaService(new VentaRepository());
+    ProductoRepository prod = new ProductoRepository();
+    EmpleadoRepository emp = new EmpleadoRepository();
+    VentaRepository ventaRepo = new VentaRepository(prod, emp);
+    VentaService control = new VentaService(ventaRepo, prod, emp);
 
     @Autowired
     public VentaController(VentaService control) {

@@ -15,6 +15,7 @@ import repository.VentaRepository;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import repository.*;
 
 
 /**
@@ -22,12 +23,15 @@ import java.util.ArrayList;
  * @author NICOL VALERIA
  */
 public class GestionDeVentas extends javax.swing.JFrame {
-    VentaService control;
+    ProductoRepository prod = new ProductoRepository();
+    EmpleadoRepository emp = new EmpleadoRepository();
+    VentaRepository ventaRepo = new VentaRepository(prod, emp);
+    VentaService ventaService = new VentaService(ventaRepo, prod, emp);
     /**
      * Creates new form GestionDeVentas
      */
-    public GestionDeVentas(VentaService control) {
-        this.control = control;
+    public GestionDeVentas(VentaService ventaService) {
+        this.ventaService = ventaService;
         FondoPanel fondo = new FondoPanel();
         this.setContentPane(fondo);
         initComponents();
@@ -256,7 +260,7 @@ public class GestionDeVentas extends javax.swing.JFrame {
         int cantidad = Integer.parseInt(cant.getText());
         // Fix the parameter order to match Venta constructor
         Venta venta = new Venta(codProducto, fechaVenta, codEmpleado, cantidad);
-        control.agregarVenta(venta);
+        ventaService.agregarVenta(venta);
         limpiarCampos();
         cargarTabla();  
     }//GEN-LAST:event_venderButtonActionPerformed
@@ -264,33 +268,6 @@ public class GestionDeVentas extends javax.swing.JFrame {
     private void regresarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarButtonActionPerformed
         this.dispose();
     }//GEN-LAST:event_regresarButtonActionPerformed
-       public static void main(String args[]) {
-       
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GestionDeVentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GestionDeVentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GestionDeVentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GestionDeVentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GestionDeVentas(new VentaService(new VentaRepository())).setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField cant;
@@ -320,7 +297,7 @@ public class GestionDeVentas extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0); // Limpiar la tabla
     
-        ArrayList<Venta> lista = control.mostrarVentas(); // Asegúrate de que este método exista en VentaService
+        ArrayList<Venta> lista = ventaService.mostrarVentas(); // Asegúrate de que este método exista en VentaService
     
         for (Venta venta : lista) {
             model.addRow(new Object[]{

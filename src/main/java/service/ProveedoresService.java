@@ -10,7 +10,7 @@ public class ProveedoresService {
 	
 	 public ProveedoresService(ProveedoresRepository servicio) {
 		this.servicio = servicio;
-		datosMuertos();
+		datosMuertos();	
 	}
 
 	 public void datosMuertos () {

@@ -23,6 +23,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          ProveedoresVistas ventanaProv;
          ProductosVistas ventanaProduc;
          GestionDeVentas ventanaVen;
+         ProductoRepository prod = new ProductoRepository();
+        EmpleadoRepository emp = new EmpleadoRepository();
+        VentaRepository ventaRepo = new VentaRepository(prod, emp);
+        VentaService ventaService = new VentaService(ventaRepo, prod, emp);
     /**
      * Creates new form VentanaPrincipal
      */
@@ -179,7 +183,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void geActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_geActionPerformed
-        this.ventanaEmp = new EmpleadosVistas(new EmpleadoService(new EmpleadoRepository()));
+        this.ventanaEmp = new EmpleadosVistas(new EmpleadoService(emp));
         this.ventanaEmp.setVisible(true);
     }//GEN-LAST:event_geActionPerformed
 
@@ -189,12 +193,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_gprActionPerformed
 
     private void gpdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gpdActionPerformed
-       this.ventanaProduc = new ProductosVistas(new ProductoService(new ProductoRepository()));
+       this.ventanaProduc = new ProductosVistas(new ProductoService(prod));
         this.ventanaProduc.setVisible(true);
     }//GEN-LAST:event_gpdActionPerformed
 
     private void gvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gvActionPerformed
-        this.ventanaVen = new GestionDeVentas(new VentaService(new VentaRepository()));
+        this.ventanaVen = new GestionDeVentas(ventaService);
         this.ventanaVen.setVisible(true);
     }//GEN-LAST:event_gvActionPerformed
 
