@@ -4,34 +4,30 @@
  */
 package vistas;
 
-import controller.EmpleadoController;
-import controller.ProductoController;
-import controller.ProveedoresController;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import repository.*;
-import service.*;
-import vistas.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import com.example.Proyecto.repository.*;
+import com.example.Proyecto.service.*;
 
 /**
  *
  * @author NICOL VALERIA
  */
+
+
+ @Component
 public class VentanaPrincipal extends javax.swing.JFrame {
          EmpleadosVistas ventanaEmp;
          ProveedoresVistas ventanaProv;
          ProductosVistas ventanaProduc;
          GestionDeVentas ventanaVen;
-         ProductoRepository prod = new ProductoRepository();
-        EmpleadoRepository emp = new EmpleadoRepository();
-        VentaRepository ventaRepo = new VentaRepository(prod, emp);
-        VentaService ventaService = new VentaService(ventaRepo, prod, emp);
-    /**
-     * Creates new form VentanaPrincipal
-     */
+         
+     @Autowired
     public VentanaPrincipal() {
-        
+       
         FondoPanel fondo = new FondoPanel();
         this.setContentPane(fondo);
         initComponents();
@@ -183,7 +179,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void geActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_geActionPerformed
-        this.ventanaEmp = new EmpleadosVistas(new EmpleadoService(emp));
+       // this.ventanaEmp = new EmpleadosVistas(new EmpleadoService(new EmpleadoRepository()));
         this.ventanaEmp.setVisible(true);
     }//GEN-LAST:event_geActionPerformed
 
@@ -193,23 +189,22 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_gprActionPerformed
 
     private void gpdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gpdActionPerformed
-       this.ventanaProduc = new ProductosVistas(new ProductoService(prod));
+       this.ventanaProduc = new ProductosVistas(new ProductoService(new ProductoRepository()));
         this.ventanaProduc.setVisible(true);
     }//GEN-LAST:event_gpdActionPerformed
 
     private void gvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gvActionPerformed
-        this.ventanaVen = new GestionDeVentas(ventaService);
+        this.ventanaVen = new GestionDeVentas(new VentaService(new VentaRepository()));
         this.ventanaVen.setVisible(true);
     }//GEN-LAST:event_gvActionPerformed
 
     private void cerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cerrarActionPerformed
         this.setVisible(false);
     }//GEN-LAST:event_cerrarActionPerformed
-
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -240,7 +235,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cerrar;
     private javax.swing.JButton ge;

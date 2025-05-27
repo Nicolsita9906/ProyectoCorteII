@@ -1,16 +1,16 @@
 
 package vistas;
-import service.ProveedoresService;
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import modelos.Categoria;
-import modelos.Productos;
-import modelos.Proveedores;
-import repository.ProveedoresRepository;
-import service.ProveedoresService;
+import com.example.Proyecto.modelos.Categoria;
+import com.example.Proyecto.modelos.Productos;
+import com.example.Proyecto.modelos.Proveedores;
+import com.example.Proyecto.repository.ProveedoresRepository;
+import com.example.Proyecto.service.ProveedoresService;
+
 import vistas.VentanaPrincipal;
 
 /**
@@ -350,7 +350,7 @@ public class ProveedoresVistas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buscarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarButtonActionPerformed
-        String busqueda = busCod.getText();
+        int busqueda = Integer.parseInt(busCod.getText());
         Proveedores proveedor = control.buscarProveedres(busqueda);
         if(proveedor != null) {
         	nom.setText(proveedor.getNombreProveedor());
@@ -368,28 +368,30 @@ public class ProveedoresVistas extends javax.swing.JFrame {
         String telefono = tel.getText();
         int cantidad = Integer.parseInt(cant.getText());
         Categoria categoria = (Categoria) cat.getSelectedItem();
+        int categoriaInt = categoria.getValor();
         String empresa = empr.getText();
-        control.agregarProveedor(new Proveedores(nombre, empresa, telefono, cantidad, categoria));
+        control.agregarProveedor(new Proveedores(nombre, empresa, telefono, cantidad, categoriaInt));
         cargarTabla();
         limpiarCampos();
 
     }//GEN-LAST:event_agregarButtonActionPerformed
 
     private void eliminarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarButtonActionPerformed
-        String codigo = busCod.getText();
+        int codigo = Integer.parseInt(busCod.getText());
         control.eliminarProveedor(codigo);
         cargarTabla();
         limpiarCampos();
     }//GEN-LAST:event_eliminarButtonActionPerformed
 
     private void cambiarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambiarButtonActionPerformed
-        String codigo = busCod.getText();
+        int codigo = Integer.parseInt(busCod.getText());
         String nombre = nom.getText();
         String telefono = tel.getText();
         int cantidad = Integer.parseInt(cant.getText());
         Categoria categoria = (Categoria) cat.getSelectedItem();
+        int categoriaInt = categoria.getValor();
         String empresa = empr.getText();
-        control.modificarProveedor(codigo,new Proveedores(nombre, empresa, telefono,cantidad,categoria));
+        control.modificarProveedor(codigo, new Proveedores(nombre, empresa, telefono,cantidad,categoriaInt));
         cargarTabla();
         limpiarCampos();
     }//GEN-LAST:event_cambiarButtonActionPerformed
@@ -438,11 +440,11 @@ public class ProveedoresVistas extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0); // Limpia la tabla
 
-        ArrayList<Proveedores> listaProveedores = control.listarProveedores();
+        List<Proveedores> listaProveedores = control.listarProveedores();
         for (Proveedores proveedor : listaProveedores) {
             Object[] row = {
                 proveedor.getNombreProveedor(),
-                proveedor.getCodigo(),
+                proveedor.getId(),
                 proveedor.getTelefono(),
                 proveedor.getEmpresa(),
                 proveedor.getCantidadProductosIngresados(),

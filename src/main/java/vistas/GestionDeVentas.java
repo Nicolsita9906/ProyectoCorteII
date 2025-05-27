@@ -4,18 +4,27 @@
  */
 package vistas;
 import java.awt.Graphics;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Connection;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import service.VentaService;
-import modelos.Venta;
-import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import repository.VentaRepository;
+import com.example.Proyecto.modelos.Venta;
+import com.example.Proyecto.repository.EmpleadoRepository;
+import com.example.Proyecto.repository.ProductoRepository;
+import com.example.Proyecto.repository.VentaRepository;
+import com.example.Proyecto.service.VentaService;
+
+import jakarta.persistence.EntityManager;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import repository.*;
 
 
 /**
@@ -23,10 +32,8 @@ import repository.*;
  * @author NICOL VALERIA
  */
 public class GestionDeVentas extends javax.swing.JFrame {
-    ProductoRepository prod = new ProductoRepository();
-    EmpleadoRepository emp = new EmpleadoRepository();
-    VentaRepository ventaRepo = new VentaRepository(prod, emp);
-    VentaService ventaService = new VentaService(ventaRepo, prod, emp);
+    VentaService ventaService = new VentaService(new VentaRepository());
+    
     /**
      * Creates new form GestionDeVentas
      */
@@ -253,13 +260,13 @@ public class GestionDeVentas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void venderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_venderButtonActionPerformed
-        String codEmpleado = codEmp.getText();
-        String codProducto = codProd.getText();
+        int codEmpleado = Integer.parseInt(codEmp.getText());
+        int codProducto = Integer.parseInt(codProd.getText());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate fechaVenta = LocalDate.parse(ffVenta.getText(),formatter );
         int cantidad = Integer.parseInt(cant.getText());
         // Fix the parameter order to match Venta constructor
-        Venta venta = new Venta(codProducto, fechaVenta, codEmpleado, cantidad);
+        Venta venta = new Venta();
         ventaService.agregarVenta(venta);
         limpiarCampos();
         cargarTabla();  
@@ -295,21 +302,23 @@ public class GestionDeVentas extends javax.swing.JFrame {
     
     private void cargarTabla() {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0); // Limpiar la tabla
-    
-        ArrayList<Venta> lista = ventaService.mostrarVentas(); // Asegúrate de que este método exista en VentaService
-    
-        for (Venta venta : lista) {
-            model.addRow(new Object[]{
-                venta.getCodVenta(),
-                venta.getCodEmp(),
-                venta.getCodProd(),
-                venta.getFechaVenta(),
+        model.setRowCount(0); // Limpia la tabla
+        
+        List<Venta> listaVentas = ventaService.mostrarVentas();
+        for (Venta venta : listaVentas) {
+            Object[] row = {
+                venta.getId(),
+                venta.getIdEmpleado(),
+                venta.getIdProducto(),
+                venta.getFecha().toString(),
                 venta.getCantidad(),
-                venta.getTotalVenta()
-            });
+                venta.getTotal()
+            };
+            model.addRow(row);
         }
     }
+    
+
 
 public class FondoPanel extends JPanel {
        

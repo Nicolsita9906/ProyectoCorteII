@@ -4,17 +4,22 @@ package vistas;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import vistas.VentanaPrincipal;
-import modelos.*;
-import controller.ProductoController;
-import excepciones.CodigoNoEncontrado;
-import excepciones.NotificarExito;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.table.DefaultTableModel;
-import repository.ProductoRepository;
-import service.ProductoService;
-import java.util.ArrayList;
+import com.example.Proyecto.controller.ProductoController;
+import com.example.Proyecto.excepciones.CodigoNoEncontrado;
+import com.example.Proyecto.excepciones.NotificarExito;
+import com.example.Proyecto.modelos.Categoria;
+import com.example.Proyecto.modelos.Productos;
+import com.example.Proyecto.repository.ProductoRepository;
+import com.example.Proyecto.service.ProductoService;
+
+import vistas.VentanaPrincipal;
+
+import java.util.List;
 
 /**
  *
@@ -349,16 +354,20 @@ public class ProductosVistas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void modificarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarButtonActionPerformed
-       String codigoBB = txtCod.getText();
+       int codigoBB = Integer.parseInt(txtCod.getText());
         
         String nombreProd = nom.getText();
-       double precioProd = Double.parseDouble(price.getText());
+       float precioProd = Float.parseFloat(price.getText());
        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-       LocalDate fechaProd = LocalDate.parse(cad.getText());
+       LocalDateTime fechaProd = LocalDateTime.parse(cad.getText());
        int StockProd = Integer.parseInt(cant.getText());
-       Categoria categoriaProd = (Categoria) cat.getSelectedItem();
+       // Obtener la categoría seleccionada y convertirla a int
+        Categoria categoriaSeleccionada = (Categoria) cat.getSelectedItem();
+        int categoriaInt = (categoriaSeleccionada != null) ? categoriaSeleccionada.getValor() : 0;
+
+
        
-       control.modificarProducto(codigoBB, new Productos(nombreProd, precioProd, fechaProd,categoriaProd, StockProd));
+         control.modificarProducto(codigoBB, new Productos(nombreProd, precioProd, fechaProd, categoriaInt, StockProd));
        cargarTabla();
        limpiarCampos();
     }//GEN-LAST:event_modificarButtonActionPerformed
@@ -370,18 +379,19 @@ public class ProductosVistas extends javax.swing.JFrame {
 
     private void agregarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarButtonActionPerformed
        String nombreProd = nom.getText();
-       double precioProd = Double.parseDouble(price.getText());
+       float precioProd = Float.parseFloat(price.getText());
        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-       LocalDate fechaProd = LocalDate.parse(cad.getText(),formatter );
+       LocalDateTime fechaProd = LocalDateTime.parse(cad.getText(),formatter );
        int StockProd = Integer.parseInt(cant.getText());
-       Categoria categoriaProd = (Categoria) cat.getSelectedItem();
-       
-       control.agregarProducto(new Productos(nombreProd, precioProd, fechaProd,categoriaProd, StockProd));
+      Categoria categoriaSeleccionada = (Categoria) cat.getSelectedItem();
+      int categoriaInt = (categoriaSeleccionada != null) ? categoriaSeleccionada.getValor() : 0;
+
+       control.agregarProducto(new Productos(nombreProd, precioProd, fechaProd, categoriaInt, StockProd));
        cargarTabla();
        limpiarCampos();
     }//GEN-LAST:event_agregarButtonActionPerformed
     private void eliminarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarButtonActionPerformed
-         String codigoBB = txtCod.getText();
+         int codigoBB = Integer.parseInt(txtCod.getText());
          control.eliminarProducto(codigoBB);
          
          cargarTabla();
@@ -389,7 +399,7 @@ public class ProductosVistas extends javax.swing.JFrame {
     }//GEN-LAST:event_eliminarButtonActionPerformed
 
     private void buscarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarButtonActionPerformed
-        String codProd = txtCod.getText();
+        int codProd = Integer.parseInt(txtCod.getText());
         Productos busqueda = control.buscarProducto(codProd);
         if (busqueda != null){
             nom.setText(busqueda.getNombre());
@@ -453,11 +463,11 @@ public class ProductosVistas extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0); // Limpia la tabla
         
-        ArrayList<Productos> listaProductos = control.mostrarProductos();
+        List<Productos> listaProductos = control.mostrarProductos();
         for (Productos producto : listaProductos) {
             Object[] row = {
                 producto.getNombre(),
-                producto.getCodigo(),
+                producto.getId(),
                 producto.getPrecio(),
                 producto.getCaducidad(),
                 producto.getStock(),
@@ -466,6 +476,16 @@ public class ProductosVistas extends javax.swing.JFrame {
             model.addRow(row);
         }
     }
+    //encontrar posicion categoria
+    private int encontrarPosicionCategoria(Categoria categoria) {
+        for (int i = 0; i < cat.getItemCount(); i++) {
+            if (cat.getItemAt(i).equals(categoria)) {
+                return i;
+            }
+        }
+        return -1; // Si no se encuentra la categoría
+    }
+
     
 public class FondoPanel extends JPanel {
        
